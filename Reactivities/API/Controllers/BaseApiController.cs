@@ -9,7 +9,8 @@ namespace API.Controllers
     public class BaseApiController : ControllerBase
     {
         private IMediator? _mediator;
-
+        
+        // Auto DI
         protected IMediator Mediator => 
             _mediator ??= HttpContext.RequestServices.GetService<IMediator>()
                 ?? throw new InvalidOperationException("IMediator service is unavailable");

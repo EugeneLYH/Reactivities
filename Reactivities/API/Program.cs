@@ -32,6 +32,7 @@ app.UseCors(options =>
 
 app.MapControllers();
 
+// Auto Database-update
 using var scope = app.Services.CreateScope(); // Creates a scope in order to use services
 var services = scope.ServiceProvider;
 try
@@ -46,4 +47,6 @@ catch (Exception ex)
    logger.LogError(ex, "An error has occurred during migration");
    throw;
 }
+
+
 app.Run();
