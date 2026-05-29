@@ -17,7 +17,7 @@ export default function LocationInput<T extends FieldValues>(props: Props<T>) {
     const [inputValue, setInputValue] = useState(field.value || '');
 
     useEffect(() => {
-        if(field.value && typeof field.value === 'object') {
+        if (field.value && typeof field.value === 'object') {
             setInputValue(field.value.venue || '')
         }
         else {
@@ -41,7 +41,7 @@ export default function LocationInput<T extends FieldValues>(props: Props<T>) {
                 setSuggestions(res.data);
             } catch (error) {
                 console.log(error);
-            } finally{
+            } finally {
                 setLoading(false);
             }
         }, 500), [locationUrl]
@@ -59,13 +59,13 @@ export default function LocationInput<T extends FieldValues>(props: Props<T>) {
         const longitude = location.lon
 
         setInputValue(venue);
-        field.onChange({city, venue, latitude, longitude});
+        field.onChange({ city, venue, latitude, longitude });
         setSuggestions([]);
     }
 
     return (
         <Box>
-            <TextField 
+            <TextField
                 {...props}
                 value={inputValue}
                 onChange={e => handleChange(e.target.value)}
@@ -75,13 +75,14 @@ export default function LocationInput<T extends FieldValues>(props: Props<T>) {
                 helperText={fieldState.error?.message}
             />
             {loading && <Typography>Loading...</Typography>}
+            
             {suggestions.length > 0 && (
-                <List sx={{border: 1}}>
+                <List sx={{ border: 1 }}>
                     {suggestions.map(suggestion => (
                         <ListItemButton
-                        divider
-                        key={suggestion.place_id}
-                        onClick={() => handleSelect(suggestion)}
+                            divider
+                            key={suggestion.place_id}
+                            onClick={() => handleSelect(suggestion)}
                         >
                             {suggestion.display_name}
                         </ListItemButton>

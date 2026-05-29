@@ -1,11 +1,11 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Domain;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Persistence;
-
-public class AppDbContext : DbContext
+// dotnet ef migrations add [name]
+public class AppDbContext(DbContextOptions options) : IdentityDbContext<User>(options)
 {
-    public AppDbContext(DbContextOptions options) : base(options) {}
     public required DbSet<Activity> Activities { get; set; }
 }
