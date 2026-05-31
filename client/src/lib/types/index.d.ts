@@ -1,17 +1,24 @@
 type Activity = {
-    id: string
-    title: string
-    date: Date
-    description: string
-    category: string
-    isCancelled: boolean
-    city: string
-    venue: string
-    latitude: number
-    longitude: number
+  id: string
+  title: string
+  date: Date
+  description: string
+  category: string
+  isCancelled: boolean
+  city: string
+  venue: string
+  latitude: number
+  longitude: number
 }
 
-export type LocationIQSuggestion = {
+type User = {
+  id: string,
+  email: string,
+  displayName: string,
+  iamgeUrl?: string
+}
+
+type LocationIQSuggestion = {
   place_id: string
   licence: string
   osm_type: string
@@ -23,7 +30,7 @@ export type LocationIQSuggestion = {
   boundingbox: string[]
 }
 
-export type LocationIQAddress = {
+type LocationIQAddress = {
   road: string
   suburb: string
   town?: string
