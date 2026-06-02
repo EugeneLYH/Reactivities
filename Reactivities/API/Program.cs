@@ -2,8 +2,10 @@ using API.Middleware;
 using Application.Activities.Queries;
 using Application.Activities.Validators;
 using Application.Core;
+using Application.Interfaces;
 using Domain;
 using FluentValidation;
+using Infrastructure.Security;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
@@ -30,6 +32,9 @@ builder.Services
       options.RegisterServicesFromAssemblyContaining<GetActivityList.Handler>();
       options.AddOpenBehavior(typeof(ValidationBehavior<,>));
    });
+
+builder.Services.AddScoped<IUserAccessor, UserAccessor>();
+
 builder.Services
    .AddAutoMapper(options => options.AddMaps(typeof(MappingProfiles).Assembly));
 builder.Services
@@ -42,6 +47,17 @@ builder.Services.AddIdentityApiEndpoints<User>(options =>
 })
 .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddAuthorization(options =>
+{
+   options.AddPolicy("IsActivityHost", policy =>
+   {
+      policy.Requirements.Add(new IsHostRequirement());
+   });
+});
+builder.Services.AddTransient<IAuthorizationHandler, IsHostRequirementHandler>();
+
+
 var app = builder.Build();
 
 // Configure HTTP Request pipeline
