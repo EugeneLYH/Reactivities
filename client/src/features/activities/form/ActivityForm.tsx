@@ -1,6 +1,6 @@
 import { Box, Button, Paper, Typography } from "@mui/material";
 import { useActivities } from "../../../lib/hooks/useActivities";
-import { useNavigate, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { useForm } from 'react-hook-form';
 import { useEffect } from "react";
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -38,11 +38,11 @@ export default function ActivityForm() {
         const flattenedData = { ...rest, ...location }
         try {
             if (activity) {
-                updateActivity.mutate({ ...activity, ...flattenedData }, {
+                await updateActivity.mutateAsync({ ...activity, ...flattenedData }, {
                     onSuccess: () => navigate(`/activities/${activity.id}`)
                 })
             } else {
-                createActivity.mutate(flattenedData, {
+                await createActivity.mutateAsync(flattenedData, {
                     onSuccess: (id) => navigate(`/activities/${id}`)
                 })
             }
@@ -74,7 +74,11 @@ export default function ActivityForm() {
 
                 <LocationInput label='Enter the location' control={control} name='location' />
                 <Box display="flex" justifyContent="end" gap={3}>
-                    <Button color="inherit">Cancel</Button>
+                    <Button
+                        color="inherit"
+                        component={Link}
+                        to={`/activities/${id}`}
+                    >Cancel</Button>
                     <Button
                         type="submit"
                         color="success"

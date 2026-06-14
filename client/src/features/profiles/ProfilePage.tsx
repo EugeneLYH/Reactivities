@@ -3,7 +3,7 @@ import ProfileHeader from "./ProfileHeader";
 import ProfileContent from "./ProfileContent";
 import { useParams } from "react-router";
 import { useProfile } from "../../lib/hooks/useProfile";
-import { Typography } from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 
 export default function ProfilePage() {
   const { id } = useParams();
@@ -16,8 +16,9 @@ export default function ProfilePage() {
     <Grid>
       <Grid size={12}>
         <ProfileHeader profile={profile} />
-      <ProfileContent />
+        <ProfileContent />
       </Grid>
+      <Divider sx={{width: '100%'}} />
     </Grid>
   )
 }

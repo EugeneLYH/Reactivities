@@ -1,6 +1,6 @@
 import { Paper, Tab, Tabs } from '@mui/material';
 import { Box } from '@mui/system';
-import React, { useState, type SyntheticEvent } from 'react'
+import { useState, type SyntheticEvent } from 'react'
 import ProfilePhotos from './ProfilePhotos';
 import ProfileAbout from './ProfileAbout';
 
@@ -27,19 +27,23 @@ export default function ProfileContent() {
       height={500}
       sx={{ display: 'flex', alignItems: 'flex-start', borderRadius: 3 }}
     >
+      
       <Tabs
         orientation='vertical'
         value={value}
         onChange={handleChange}
-        sx={{borderRight: 1, height: 450, minWidth: 200}}
+        sx={{ borderRight: 1, height: 450, minWidth: 200 }}
       >
-        {tabContent.map( (tab, index) => (
-          <Tab key={index} label={tab.label} sx={{mr: 3}} />
+        {tabContent.map((tab, index) => (
+          <Tab key={index} label={tab.label} sx={{ mr: 3 }} />
         ))}
       </Tabs>
-      <Box sx={{flexGrow: 1, p: 3, pt: 0}}>
+
+      <Box sx={{ flexGrow: 1, p: 3, pt: 0 }}>
         {tabContent[value].content}
       </Box>
+
+      
     </Box>
   )
 }
