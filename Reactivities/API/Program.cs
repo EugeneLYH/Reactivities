@@ -1,4 +1,5 @@
 using API.Middleware;
+using API.SignalR;
 using Application.Activities.Queries;
 using Application.Activities.Validators;
 using Application.Core;
@@ -27,6 +28,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 builder.Services.AddCors();
+builder.Services.AddSignalR();
 builder.Services
    .AddMediatR(options =>
    {
@@ -76,6 +78,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapGroup("api").MapIdentityApi<User>(); // login url: /"api"/login
+app.MapHub<CommentHub>("/comments");
 
 // Auto Database-update
 using var scope = app.Services.CreateScope(); // Creates a scope in order to use services
