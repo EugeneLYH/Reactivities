@@ -7,7 +7,7 @@ import { Divider, Typography } from "@mui/material";
 
 export default function ProfilePage() {
   const { id } = useParams();
-  const { profile, loadingProfile } = useProfile(id);
+  const { loadingProfile } = useProfile(id);
 
   if (loadingProfile) return <Typography>Loading...</Typography>
 
@@ -15,7 +15,7 @@ export default function ProfilePage() {
   return (
     <Grid>
       <Grid size={12}>
-        <ProfileHeader profile={profile} />
+        <ProfileHeader />
         <ProfileContent />
       </Grid>
       <Divider sx={{width: '100%'}} />

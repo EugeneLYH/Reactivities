@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Persistence;
 
@@ -10,9 +11,11 @@ using Persistence;
 namespace Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260622101305_FollowerEntityAdded")]
+    partial class FollowerEntityAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "10.0.7");
@@ -214,9 +217,15 @@ namespace Persistence.Migrations
                     b.Property<string>("TargetId")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("TargetId1")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasKey("ObserverId", "TargetId");
 
                     b.HasIndex("TargetId");
+
+                    b.HasIndex("TargetId1");
 
                     b.ToTable("UserFollowings");
                 });
@@ -402,13 +411,13 @@ namespace Persistence.Migrations
                 {
                     b.HasOne("Domain.User", "Observer")
                         .WithMany("Followings")
-                        .HasForeignKey("ObserverId")
+                        .HasForeignKey("TargetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.User", "Target")
                         .WithMany("Followers")
-                        .HasForeignKey("TargetId")
+                        .HasForeignKey("TargetId1")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
