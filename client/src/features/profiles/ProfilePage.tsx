@@ -18,7 +18,7 @@ export default function ProfilePage() {
         <ProfileHeader />
         <ProfileContent />
       </Grid>
-      <Divider sx={{width: '100%'}} />
+      <Divider sx={{width: '100%', py: 2}} />
     </Grid>
   )
 }

@@ -3,34 +3,30 @@ using System.Security.Permissions;
 using Application.Activities.Commands;
 using Application.Activities.DTO;
 using Application.Activities.Queries;
-using Domain;
-using MediatR;
+using Application.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
-using Microsoft.EntityFrameworkCore;
-using Persistence;
 
 namespace API.Controllers;
 
 public class ActivitiesController : BaseApiController
 {
     [HttpGet]
-    public async Task<ActionResult<List<ActivityDto>>> GetActivities()
+    public async Task<ActionResult<PagedList<ActivityDto, DateTime?>>> GetActivities([FromQuery] ActivityParams activityParams)
     {
-        return await Mediator.Send(new GetActivityList.Query());
+        return HandleResult(await Mediator.Send(new GetActivityList.Query { Params = activityParams }));
     }
-    
+
     [HttpGet("{id}")]
     public async Task<ActionResult<ActivityDto>> GetActivityDetail(string id)
     {
-        return HandleResult(await Mediator.Send(new GetActivityDetails.Query{Id = id}));
+        return HandleResult(await Mediator.Send(new GetActivityDetails.Query { Id = id }));
     }
 
     [HttpPost]
     public async Task<ActionResult<string>> CreateActivity(CreateActivityDto activityDto)
     {
-        return HandleResult(await Mediator.Send(new CreateActivity.Command{ActivityDto = activityDto}));
+        return HandleResult(await Mediator.Send(new CreateActivity.Command { ActivityDto = activityDto }));
     }
 
     [HttpPut("{id}")]
@@ -38,18 +34,18 @@ public class ActivitiesController : BaseApiController
     public async Task<ActionResult> EditActivity(string id, EditActivityDto activity)
     {
         activity.Id = id;
-        return HandleResult(await Mediator.Send(new EditActivity.Command{ActivityDto = activity}));
+        return HandleResult(await Mediator.Send(new EditActivity.Command { ActivityDto = activity }));
     }
 
     [HttpDelete("{id}")]
     [Authorize(Policy = "IsActivityHost")]
     public async Task<ActionResult> DeleteActivity(string id)
     {
-        return HandleResult(await Mediator.Send(new DeleteActivity.Command{Id = id}));
+        return HandleResult(await Mediator.Send(new DeleteActivity.Command { Id = id }));
     }
     [HttpPost("{id}/attend")]
     public async Task<ActionResult> Attend(string id)
     {
-        return HandleResult(await Mediator.Send(new UpdateAttendance.Command{Id = id}));
+        return HandleResult(await Mediator.Send(new UpdateAttendance.Command { Id = id }));
     }
 }

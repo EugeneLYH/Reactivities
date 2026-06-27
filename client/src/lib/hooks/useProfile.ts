@@ -3,7 +3,7 @@ import agent from "../api/agent"
 import { useMemo } from "react";
 import type { EditProfileSchema } from "../schemas/editProfileSchema";
 
-export const useProfile = (id?: string, predicate?: string) => {
+export const useProfile = (id?: string, predicate?: string, filter?: string) => {
     const queryClient = useQueryClient();
 
     const { data: profile, isLoading: loadingProfile } = useQuery<Profile>({
@@ -12,7 +12,7 @@ export const useProfile = (id?: string, predicate?: string) => {
             const response = await agent.get<Profile>(`/profiles/${id}`);
             return response.data;
         },
-        enabled: !!id && !predicate
+        enabled: !!id && !predicate,
     })
 
     const { data: photos, isLoading: loadingPhotos } = useQuery<Photo[]>({
@@ -31,6 +31,16 @@ export const useProfile = (id?: string, predicate?: string) => {
             return response.data;
         },
         enabled: !!id && !!predicate
+    })
+
+    const { data: activities, isLoading: loadingActivities } = useQuery<Activity[]>({
+        queryKey: ['activities', id, filter],
+        queryFn: async () => {
+            const response = await agent.get<Activity[]>(`/profiles/${id}/activities?filter=${filter}`);
+            return response.data;
+        },
+        enabled: !!id && !!filter,
+        staleTime: 1000*60*5
     })
 
     const uploadPhoto = useMutation({
@@ -152,6 +162,8 @@ export const useProfile = (id?: string, predicate?: string) => {
         editProfile,
         updateFollowing,
         followings,
-        loadingFollowings
+        loadingFollowings,
+        activities,
+        loadingActivities
     }
 }

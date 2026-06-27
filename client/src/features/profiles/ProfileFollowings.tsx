@@ -1,8 +1,8 @@
 import { useParams } from "react-router"
-import { useProfile } from "../lib/hooks/useProfile";
+import { useProfile } from "../../lib/hooks/useProfile";
 import { Box } from "@mui/system";
 import { Divider, Typography } from "@mui/material";
-import ProfileCard from "./profiles/ProfileCard";
+import ProfileCard from "./ProfileCard";
 
 type Props = {
     activeTab: number

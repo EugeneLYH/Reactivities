@@ -1,8 +1,10 @@
 using System;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
 
 namespace Domain;
 // /reactivities> dotnet ef migrations add updateRequired -p Persistence -s API
+[Index(nameof(Date))]
 public class Activity
 {
     [Key]
