@@ -1,6 +1,5 @@
 import { Avatar, Button, Chip, Divider, Paper, Typography } from '@mui/material';
 import { Box, Grid, Stack } from '@mui/system';
-import React from 'react'
 import { useParams } from 'react-router';
 import { useProfile } from '../../lib/hooks/useProfile';
 

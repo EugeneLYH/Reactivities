@@ -8,7 +8,7 @@ import { observer } from "mobx-react-lite";
 const ActivityDetailsChat = observer( function ActivityDetailsChat() {
     const { id } = useParams();
     const { commentStore } = useComments(id);
-    const { register, handleSubmit, reset, formState: {isSubmitting} } = useForm();
+    const { register, handleSubmit, formState: {isSubmitting} } = useForm();
 
     const addComment = async (data: FieldValues) => {
         try {

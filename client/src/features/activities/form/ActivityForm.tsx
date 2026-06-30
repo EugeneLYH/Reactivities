@@ -1,7 +1,7 @@
 import { Box, Button, Paper, Typography } from "@mui/material";
 import { useActivities } from "../../../lib/hooks/useActivities";
-import { Link, useNavigate, useParams } from "react-router";
-import { useForm } from 'react-hook-form';
+import { useNavigate, useParams } from "react-router";
+import { useForm, type FieldValues } from 'react-hook-form';
 import { useEffect } from "react";
 import { zodResolver } from '@hookform/resolvers/zod';
 import { activitySchema, type ActivitySchema } from "../../../lib/schemas/activitySchema";
@@ -33,7 +33,7 @@ export default function ActivityForm() {
         });
     }, [activity, reset]);
 
-    const onSubmit = async (data: ActivitySchema) => {
+    const onSubmit = async (data: FieldValues) => {
         const { location, ...rest } = data;
         const flattenedData = { ...rest, ...location }
         try {
@@ -76,9 +76,10 @@ export default function ActivityForm() {
                 <Box display="flex" justifyContent="end" gap={3}>
                     <Button
                         color="inherit"
-                        component={Link}
-                        to={`/activities/${id}`}
-                    >Cancel</Button>
+                        onClick={() => navigate(-1)}
+                    >
+                        Cancel
+                    </Button>
                     <Button
                         type="submit"
                         color="success"
